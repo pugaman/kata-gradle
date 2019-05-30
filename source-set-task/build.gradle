@@ -1,0 +1,48 @@
+plugins {
+    id 'application'
+    id 'java'
+}
+
+version 'unspecified'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven {
+        name 'NSPK Nexus 3 Public'
+        url 'http://msk1-cnex001.unix.nspk.ru/repository/public-maven'
+    }
+
+    mavenLocal()
+}
+
+sourceSets {
+    custom {
+        java {
+            srcDir('src/custom/java')
+            srcDir('src/custom2/java')
+        }
+    }
+}
+
+configurations {
+    customImplementation.extendsFrom implementation
+}
+
+dependencies {
+    // This dependency is found on compile classpath of this component and consumers.
+    implementation 'com.google.guava:guava:26.0-jre'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+
+    customImplementation 'com.google.guava:guava:26.0-jre'
+}
+
+println('Main Java source set: ' + sourceSets.main.allJava.srcDirs)
+println('Custom Java soruce set: ' + sourceSets.custom.allJava.srcDirs)
+
+println('Implementation configuration: ' + configurations.getByName("implementation").getAllDependencies())
+println('Implementation configuration: ' + configurations.getByName("implementation").getAll())
+
+
